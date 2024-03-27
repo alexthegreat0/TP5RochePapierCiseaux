@@ -130,8 +130,8 @@ class MyGame(arcade.Window): #la classe princiaple (la fenêtre qui s'ouvre)
 
       elif self.game_state == game_state.GameState.GAME_OVER: #Puisqu'on est à l'état GAME_OVER parce que un des pointages est monté à 3, on peux simplement dire ceci:
          
-         if self.pointage_usager == 3: arcade.draw_text("Bravo! Vous avez gagné la partie! Merci pour avoir joué!",SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2,arcade.color.FLORAL_WHITE,40,width=SCREEN_WIDTH,align="center")
-         elif self.pointage_ordi == 3: arcade.draw_text("Womp Womp... Vous avez perdu...(skill issue) Merci pour avoir joué!",0,SCREEN_HEIGHT / 2,arcade.color.FLORAL_WHITE,40,width=SCREEN_WIDTH,align="center")
+         if self.pointage_usager == 3: arcade.draw_text("Bravo! Vous avez gagné la partie! Merci pour avoir joué!\nAppuyer sur 'ESPACE' pour démarrer une nouvelle partie",0,SCREEN_HEIGHT / 2,arcade.color.FLORAL_WHITE,40,width=SCREEN_WIDTH,align="center")
+         elif self.pointage_ordi == 3: arcade.draw_text("Womp Womp... Vous avez perdu...(skill issue) Merci pour avoir joué!\nAppuyer sur 'ESPACE' pour démarrer une nouvelle partie",0,SCREEN_HEIGHT / 2,arcade.color.FLORAL_WHITE,40,width=SCREEN_WIDTH,align="center")
    
    def on_update(self, delta_time):
 
@@ -163,7 +163,12 @@ class MyGame(arcade.Window): #la classe princiaple (la fenêtre qui s'ouvre)
 
          self.game_state = game_state.GameState.ROUND_ACTIVE
          self.reset_round()
+      if key == 32 and self.game_state == game_state.GameState.GAME_OVER: #On passe toujours de GAME_OVER à GAME_NOT_STARTED et on reset_round(), quand on appuie sur espace(32)
 
+         self.game_state = game_state.GameState.GAME_NOT_STARTED
+         self.reset_round()
+         self.pointage_usager, self.pointage_ordi = 0, 0
+         self.winner = "undetermined"
    def reset_round(self): #La méthode qui sert à mettre ou à remettre nos variables à la bonne valeur pour faire fonctionner UNE ronde
       
       self.scissor = attack_animation.AttackAnimation(attack_animation.AttackType.SCISSORS, pos_x=SCREEN_WIDTH / 4, pos_y=SCREEN_HEIGHT/2)
